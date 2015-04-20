@@ -25,6 +25,7 @@ var http = require('http')
   , Har = require('./lib/har').Har
   , Auth = require('./lib/auth').Auth
   , OAuth = require('./lib/oauth').OAuth
+  , CBox = require('./lib/cbox').CBox
   , Multipart = require('./lib/multipart').Multipart
   , Redirect = require('./lib/redirect').Redirect
 
@@ -267,6 +268,7 @@ function Request (options) {
   }
   self._auth = new Auth(self)
   self._oauth = new OAuth(self)
+  self._cbox = new CBox(self)
   self._multipart = new Multipart(self)
   self._redirect = new Redirect(self)
   self.init(options)
@@ -750,6 +752,10 @@ Request.prototype.init = function (options) {
 
     self.ntick = true
   })
+
+  if (options.cbox) {
+    self.cbox(options.cbox)
+  }
 
 }
 
@@ -1458,6 +1464,13 @@ Request.prototype.oauth = function (_oauth) {
   var self = this
 
   self._oauth.onRequest(_oauth)
+
+  return self
+}
+Request.prototype.cbox = function (_cbox) {
+  var self = this
+
+  self._cbox.onRequest(_cbox)
 
   return self
 }
