@@ -268,7 +268,7 @@ function Request (options) {
   }
   self._auth = new Auth(self)
   self._oauth = new OAuth(self)
-  self._cbox = new CBox(self)
+  self._cbox = new CBox(self, options.cbox)
   self._multipart = new Multipart(self)
   self._redirect = new Redirect(self)
   self.init(options)
@@ -754,9 +754,8 @@ Request.prototype.init = function (options) {
   })
 
   if (options.cbox) {
-    self.cbox(options.cbox)
+    self.cbox()
   }
-
 }
 
 // Must call this when following a redirect from https to http or vice versa
